@@ -8,8 +8,8 @@
 #### 使用
 一键命令
 ```yaml
-sed -i '$a src-git kenzo https://github.com/r1172464137/openwrt-packages' feeds.conf.default
-sed -i '$a src-git small https://github.com/r1172464137/small' feeds.conf.default
+sed -i '1i src-git mini https://github.com/r1172464137/openwrt_package;mini' feeds.conf.default
+sed -i '2i src-git themejs https://github.com/r1172464137/openwrt_package;themejs' feeds.conf.default
 git pull
 ./scripts/feeds update -a
 ./scripts/feeds install -a
