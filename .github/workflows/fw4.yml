@@ -1,10 +1,10 @@
-name: litte
+name: fw4
 
 on:
   push:
     paths:
-      - '.github/workflows/litte.yml'
-      - 'commit/**'
+      - '.github/workflows/fw4.yml'
+      - 'fw4.sh'
   schedule:
     - cron: 0 */6 * * *
   repository_dispatch:
@@ -16,15 +16,15 @@ on:
         default: 'false'	
 
 jobs:
-  job_litte:
+  job_fw4:
     if: github.event.repository.owner.id == github.event.sender.id || ! github.event.sender.id
     runs-on: ubuntu-latest
 
-    name: Update litte
+    name: Update fw4
     strategy:
       fail-fast: false
       matrix:
-        target: [master]
+        target: [fw4]
         
     steps:
     - name: Checkout
@@ -34,22 +34,19 @@ jobs:
 
     - name: Initialization environment
       run : |
-        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --global user.email "r1172464137+github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
         sudo timedatectl set-timezone "Asia/Shanghai"
         
     - name: Clone packages
       run: |
         cd $GITHUB_WORKSPACE
-        chmod +x .github/diy/${{matrix.target}}.sh
-        git clone -b master https://github.com/kenzok8/litte.git ${{matrix.target}}
+        chmod +x .github/diy/fw4.sh
+        git clone -b fw4 https://github.com/r1172464137/openwrt_package.git ${{matrix.target}}
         cd ${{matrix.target}}
         git rm -r --cache * >/dev/null 2>&1 &
-        rm -rf `find ./* -maxdepth 0 -type d ! -name "commit"` >/dev/null 2>&1     
-        $GITHUB_WORKSPACE/.github/diy/litte.sh
-        bash /$GITHUB_WORKSPACE/.github/diy/convert_translation.sh
-        bash /$GITHUB_WORKSPACE/.github/diy/create_acl_for_luci.sh -a
-        bash /$GITHUB_WORKSPACE/.github/diy/Modify.sh
+        rm -rf `find ./* -maxdepth 0 -type d ! -name "commit"` >/dev/null 2>&1
+        $GITHUB_WORKSPACE/.github/diy/fw4.sh
 
     - name: Upload
       env: 
@@ -57,15 +54,13 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/${{matrix.target}}
         if git status --porcelain | grep .; then
-          PLUGIN_VERSION=$(find . -type f -name Makefile -exec grep -E 'PKG_(BASE_)?VERSION\s*?:=' {} \; | awk -F '[:=]' '{print $2}')
           git add .
-          git commit -m "Update to $PLUGIN_VERSION"
-          git push --quiet "https://${{ secrets.ACCESS_TOKEN }}@github.com/kenzok8/litte.git" HEAD:${{matrix.target}}
+          git commit -am "update $(date '+%Y-%m-%d %H:%M:%S')"
+          git push --quiet "https://${{ secrets.ACCESS_TOKEN }}@github.com/r1172464137/openwrt_package.git" HEAD:fw4
         else
           echo "nothing to commit"
           exit 0
         fi || exit 0
-
 
     - name: Delete workflow runs
       uses: Mattraks/delete-workflow-runs@main
