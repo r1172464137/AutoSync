@@ -9,7 +9,7 @@
 一键命令
 ```yaml
 sed -i '1i src-git mini https://github.com/r1172464137/openwrt_package;mini' feeds.conf.default
-sed -i '2i src-git themejs https://github.com/r1172464137/openwrt_package;themejs' feeds.conf.default
+sed -i '2i src-git themejs https://github.com/r1172464137/openwrt_package;theme_js' feeds.conf.default
 git pull
 ./scripts/feeds update -a
 ./scripts/feeds install -a
