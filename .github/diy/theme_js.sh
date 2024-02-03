@@ -23,6 +23,10 @@ sed -i \
 -e 's?\.\./\.\./luci.mk?$(TOPDIR)/feeds/luci/luci.mk?' \
 */Makefile
 
+pushd luci-theme-argon
+wget -qO - https://github.com/jerrykuku/luci-theme-argon/pull/456.patch | patch -p1
+popd
+
 rm -rf ./*/.git ./*/.gitattributes ./*/.svn ./*/.github ./*/.gitignore
 #find . -type f -name Makefile -exec sed -i 's/PKG_BUILD_FLAGS:=no-mips16/PKG_USE_MIPS16:=0/g' {} +
 exit 0
