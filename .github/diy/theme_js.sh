@@ -27,6 +27,6 @@ pushd luci-theme-argon
 wget -qO - https://github.com/jerrykuku/luci-theme-argon/pull/456.patch | patch -p1
 popd
 
-rm -rf ./*/.git ./*/.gitattributes ./*/.svn ./*/.github ./*/.gitignore
+rm -rf ./*/.git ./*/.gitattributes ./*/.svn ./*/.github ./*/.gitignore create_acl_for_luci.err create_acl_for_luci.ok create_acl_for_luci.warn
 #find . -type f -name Makefile -exec sed -i 's/PKG_BUILD_FLAGS:=no-mips16/PKG_USE_MIPS16:=0/g' {} +
 exit 0
